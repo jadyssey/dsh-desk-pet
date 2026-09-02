@@ -1,0 +1,9 @@
+node_modules/
+dist/
+desktop/src-tauri/target/
+desktop/src-tauri/gen/
+.DS_Store
+*.log
+packages/*/bin/desk-whale
+packages/*/bin/desk-whale.exe
+packages/*/bin/*.zip

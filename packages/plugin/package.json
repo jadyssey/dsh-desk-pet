@@ -1,0 +1,46 @@
+{
+  "name": "dsh-desk-pet",
+  "version": "0.1.0",
+  "description": "Cross-platform desktop pet for DeepSeek Harness — a transparent, always-on-top whale that swims on your desktop and reflects agent state. Ships native Tauri binaries for Windows, macOS and Linux.",
+  "license": "MIT",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "desktop",
+    "cordis.patch.yml"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "desktop-pet",
+    "web-ui",
+    "cordis"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-host-webserver": "*"
+  },
+  "optionalDependencies": {
+    "@dsh-desk-pet/linux-x64": "0.1.0",
+    "@dsh-desk-pet/linux-arm64": "0.1.0",
+    "@dsh-desk-pet/darwin-x64": "0.1.0",
+    "@dsh-desk-pet/darwin-arm64": "0.1.0",
+    "@dsh-desk-pet/win32-x64": "0.1.0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/example/dsh-desk-pet.git"
+  }
+}

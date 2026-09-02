@@ -1,0 +1,8 @@
+# dsh-desk-pet: cross-platform desktop pet for the DeepSeek Harness.
+# Registers the pet plugin into the profile's Cordis config tree.
+# Fields: sleepAfterMinutes — idle time before the whale dozes off.
+- insert:
+    - id: desk-pet
+      name: dsh-desk-pet
+      config:
+        sleepAfterMinutes: 10

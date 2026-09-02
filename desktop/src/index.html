@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Desk Whale</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="pet-root">
+    <canvas id="pet-canvas" width="256" height="256"></canvas>
+    <div id="speech-bubble" class="hidden"></div>
+  </div>
+
+  <div id="context-menu" class="hidden">
+    <button data-action="home">🏠 回到默认位置</button>
+    <button data-action="toggle-top">📌 切换置顶</button>
+    <button data-action="quit">❌ 退出</button>
+  </div>
+
+  <script defer src="main.js"></script>
+</body>
+</html>

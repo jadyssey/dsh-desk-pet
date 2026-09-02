@@ -1,0 +1,21 @@
+{
+  "name": "desk-whale",
+  "version": "0.1.0",
+  "description": "Cross-platform desktop pet (Tauri v2) that swims on your desktop and reflects DSH agent state.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "node build.mjs && tauri build",
+    "bundle": "node build.mjs",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
+    "gifuct-js": "^2.1.2"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "esbuild": "^0.28.2"
+  }
+}

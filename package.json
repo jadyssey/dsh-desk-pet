@@ -1,0 +1,19 @@
+{
+  "name": "dsh-desk-pet-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cross-platform DSH desktop pet: plugin host package + per-platform native binaries + Tauri desktop app.",
+  "license": "MIT",
+  "workspaces": [
+    "packages/plugin",
+    "desktop"
+  ],
+  "scripts": {
+    "test": "node --test packages/plugin/test/host.test.js packages/plugin/test/pet-machine.test.js",
+    "build:desktop": "npm run build -w desktop"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "@tauri-apps/cli@2.11.4": true
+  }
+}

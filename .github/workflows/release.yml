@@ -1,0 +1,121 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # macOS is built twice (universal binaries not needed — two thin builds)
+          - platform: macos-latest
+            args: '--target aarch64-apple-darwin'
+            rust-target: aarch64-apple-darwin
+            pkg: darwin-arm64
+          - platform: macos-latest
+            args: '--target x86_64-apple-darwin'
+            rust-target: x86_64-apple-darwin
+            pkg: darwin-x64
+          - platform: ubuntu-22.04
+            args: ''
+            rust-target: x86_64-unknown-linux-gnu
+            pkg: linux-x64
+          # linux-arm64 has no GitHub runner; cross-compilation left as future work.
+          - platform: windows-latest
+            args: ''
+            rust-target: x86_64-pc-windows-msvc
+            pkg: win32-x64
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust-target }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './desktop/src-tauri -> target'
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libgtk-3-dev
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Desk Whale v__VERSION__'
+          releaseBody: 'See the assets to download and install.'
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
+
+      # ── Assemble the platform npm package (raw spawn form) ──
+      # Spawn form is the raw release binary: AppImage needs libfuse2 and fails
+      # silently when detached-spawned; nsis/dmg/app are distribution artifacts.
+      - name: Assemble platform package (unix)
+        if: matrix.platform != 'windows-latest'
+        run: |
+          mkdir -p packages/${{ matrix.pkg }}/bin
+          cp desktop/src-tauri/target/${{ matrix.rust-target }}/release/desk-whale \
+             packages/${{ matrix.pkg }}/bin/desk-whale
+          chmod +x packages/${{ matrix.pkg }}/bin/desk-whale
+
+      - name: Assemble platform package (windows)
+        if: matrix.platform == 'windows-latest'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force packages/${{ matrix.pkg }}/bin | Out-Null
+          Copy-Item desktop/src-tauri/target/release/desk-whale.exe packages/${{ matrix.pkg }}/bin/desk-whale.exe
+
+      - name: Publish platform package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true # already-published versions are non-fatal
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          npm version "$VERSION" --no-git-tag-version --prefix packages/${{ matrix.pkg }}
+          npm publish packages/${{ matrix.pkg }} --access public
+
+  # Main plugin package: pure JS + assets, published once after all builds.
+  publish-plugin:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish plugin package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          npm version "$VERSION" --no-git-tag-version --prefix packages/plugin
+          npm publish packages/plugin --access public
