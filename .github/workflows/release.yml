@@ -22,7 +22,7 @@ jobs:
             rust-target: x86_64-apple-darwin
             pkg: darwin-x64
           - platform: ubuntu-22.04
-            args: ''
+            args: '--target x86_64-unknown-linux-gnu'
             rust-target: x86_64-unknown-linux-gnu
             pkg: linux-x64
           # linux-arm64 has no GitHub runner; cross-compilation left as future work.
@@ -64,6 +64,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          projectPath: desktop
           tagName: v__VERSION__
           releaseName: 'Desk Whale v__VERSION__'
           releaseBody: 'See the assets to download and install.'
