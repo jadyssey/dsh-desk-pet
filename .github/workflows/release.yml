@@ -8,6 +8,10 @@ on:
 
 jobs:
   build:
+    # tauri-action creates a GitHub Release for the binaries; the default
+    # workflow token lacks contents:write unless granted explicitly.
+    permissions:
+      contents: write
     strategy:
       fail-fast: false
       matrix:
