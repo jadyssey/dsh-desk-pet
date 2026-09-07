@@ -98,11 +98,10 @@ jobs:
       - name: Publish platform package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true # already-published versions are non-fatal
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          npm version "$VERSION" --no-git-tag-version --allow-same-version --prefix packages/${{ matrix.pkg }}
-          npm publish packages/${{ matrix.pkg }} --access public
+        # No `npm version` here: it would try git commit/tag against the
+        # repository remote (SSH) and fail with no key in CI. The package
+        # version is already set in package.json.
+        run: npm publish packages/${{ matrix.pkg }} --access public
 
   # Main plugin package: pure JS + assets, published once after all builds.
   publish-plugin:
@@ -120,8 +119,5 @@ jobs:
       - name: Publish plugin package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          npm version "$VERSION" --no-git-tag-version --allow-same-version --prefix packages/plugin
-          npm publish packages/plugin --access public
+        # Same as above: publish directly, no npm version / git ops.
+        run: npm publish packages/plugin --access public
