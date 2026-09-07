@@ -98,10 +98,11 @@ jobs:
       - name: Publish platform package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # No `npm version` here: it would try git commit/tag against the
-        # repository remote (SSH) and fail with no key in CI. The package
-        # version is already set in package.json.
-        run: npm publish packages/${{ matrix.pkg }} --access public
+        # No `npm version` here (it git-commits/tags and fails in CI with no
+        # SSH key). The leading `./` on the publish folder is critical: without
+        # it npm parses `packages/foo` as a GitHub user/repo shorthand and runs
+        # `git ls-remote ssh://git@github.com/packages/foo.git`.
+        run: npm publish ./packages/${{ matrix.pkg }} --access public
 
   # Main plugin package: pure JS + assets, published once after all builds.
   publish-plugin:
@@ -119,5 +120,6 @@ jobs:
       - name: Publish plugin package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # Same as above: publish directly, no npm version / git ops.
-        run: npm publish packages/plugin --access public
+        # Same as above: publish directly; leading `./` avoids the GitHub
+        # user/repo shorthand mis-parse.
+        run: npm publish ./packages/plugin --access public
