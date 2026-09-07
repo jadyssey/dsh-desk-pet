@@ -43,6 +43,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -100,7 +101,7 @@ jobs:
         continue-on-error: true # already-published versions are non-fatal
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          npm version "$VERSION" --no-git-tag-version --prefix packages/${{ matrix.pkg }}
+          npm version "$VERSION" --no-git-tag-version --allow-same-version --prefix packages/${{ matrix.pkg }}
           npm publish packages/${{ matrix.pkg }} --access public
 
   # Main plugin package: pure JS + assets, published once after all builds.
@@ -122,5 +123,5 @@ jobs:
         continue-on-error: true
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
-          npm version "$VERSION" --no-git-tag-version --prefix packages/plugin
+          npm version "$VERSION" --no-git-tag-version --allow-same-version --prefix packages/plugin
           npm publish packages/plugin --access public
