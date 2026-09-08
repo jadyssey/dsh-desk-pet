@@ -1,51 +1,54 @@
 # dsh-desk-pet 🐳
 
-跨平台桌面宠物（Windows / macOS / Linux）：一只透明、置顶、可拖拽的鲸鱼，实时联动 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）的 Agent 状态。
+[English](README.md) | [中文](README.zh.md)
 
-> 产品名 **Desk Whale**（鲸鱼角色身份）；插件 npm 包名 **@jadyssey/dsh-desk-pet**。
+A cross-platform desktop pet (Windows / macOS / Linux): a transparent, always-on-top, draggable whale that swims on your desktop and reflects your [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (DSH) agent's state in real time.
 
-## 特性
+> Product name **Desk Whale** (the whale character identity); plugin npm package **@jadyssey/dsh-desk-pet**.
 
-- 🪟 透明无边框、始终置顶、跳过任务栏
-- 🖱️ 可拖拽到任意位置，位置自动记忆；右键菜单（置顶切换 / 回默认位 / 退出）
-- 🎞️ 丰富的状态动画（游泳 / 思考 / 敲玻璃 / 睡觉…），纯 Canvas 逐帧播放
-- 🔗 联动 DSH：Agent 干活时鲸鱼游泳、沉默推理时思考、请求审批时"敲玻璃"提醒
-- 💬 气泡提示：工具调用名、审批提醒（"需要你确认～"）、对话完成报告（"搞定！X 秒，Y 个工具 🎉"）
-- 🔌 零侵入：只读 session 事件，不改 DSH 任何行为
+## Features
 
-## 安装
+- 🪟 Transparent, borderless, always-on-top, hidden from the taskbar
+- 🖱️ Draggable anywhere; remembers its position; right-click menu (toggle always-on-top / reset position / quit)
+- 🎞️ Rich state animations (swimming / thinking / glass-tapping / sleeping …), pure Canvas frame playback
+- 🔗 Tracks DSH: swims while the agent works, thinks while reasoning silently, "taps the glass" when approval is needed
+- 💬 Speech bubble: tool names, approval nudge, turn-done report
+- 🔌 Zero intrusion: read-only on session events, never changes DSH behavior
+- 🛑 Auto-exit: quits itself ~15s after DSH goes away, so stopping DSH also stops the pet
 
-### 前置条件
+## Install
 
-- 已安装 [DSH](https://github.com/deepseek-ai/deepseek-harness) 命令行工具
+### Prerequisites
 
-### 从 npm 安装
+- The [DSH](https://github.com/deepseek-ai/deepseek-harness) CLI installed
+
+### From npm
 
 ```sh
 dsh plugin --profile <profile> add @jadyssey/dsh-desk-pet
 ```
 
-安装时会按你的操作系统 + 架构自动拉取对应的桌宠二进制包 `@jadyssey/<platform>-<arch>`，DSH 启动即自动拉起鲸鱼。
+It automatically pulls the pet binary package `@jadyssey/<platform>-<arch>` matching your OS + arch; DSH launches the whale on startup.
 
-#### `<profile>` 是什么
+#### What is `<profile>`
 
-`<profile>` 是你要安装到的 DSH profile 名，每个 profile 对应 `~/.dsh/profiles/<name>/` 下的一套独立插件配置。常见取值：
+`<profile>` is the name of the DSH profile you install into. Each profile is an independent plugin config under `~/.dsh/profiles/<name>/`. Common values:
 
-| profile | 说明 |
+| profile | description |
 |---|---|
-| `web` | Web 界面模式（`dsh web` 等价于 `--profile web`），**最常用** |
-| `headless` | 无界面，一次性跑完任务即退出 |
-| 自定义名 | 你通过 `dsh --profile <名字>` 自建的任意 profile |
+| `web` | Web UI mode (`dsh web` is an alias of `--profile web`), **most common** |
+| `headless` | No UI; runs one task then exits |
+| custom | Any profile you created with `dsh --profile <name>` |
 
-没特别指定过的话，一般填 `web`：
+If unsure, use `web`:
 
 ```sh
 dsh plugin --profile web add @jadyssey/dsh-desk-pet
 ```
 
-想装到哪个 profile，就把 `<profile>` 换成对应的名字（例如 `headless`）。
+Replace `<profile>` with whatever profile name you want (e.g. `headless`).
 
-### 从源码安装
+### From source
 
 ```sh
 git clone https://github.com/jadyssey/dsh-desk-pet
@@ -53,74 +56,74 @@ cd dsh-desk-pet
 dsh plugin --profile <profile> add file:$PWD/packages/plugin
 ```
 
-> 从源码安装只装插件本体（状态机 + HTTP 服务）。桌宠二进制需另外提供，见下。
+> Installing from source only gives you the plugin host (state machine + HTTP service). The pet binary must be provided separately — see below.
 
-## 桌宠二进制
+## Pet binary
 
-插件按以下优先级解析桌宠二进制（`desk-whale` / `desk-whale.exe`）：
+The plugin resolves the pet binary (`desk-whale` / `desk-whale.exe`) in this priority order:
 
-1. npm 平台包 `@jadyssey/<platform>-<arch>` 的 `bin/`
-2. 插件包内 `desktop/`
-3. 用户目录 `~/.dsh/desk-pet/desktop/`
+1. `bin/` of the npm platform package `@jadyssey/<platform>-<arch>`
+2. the plugin package's own `desktop/`
+3. the user directory `~/.dsh/desk-pet/desktop/`
 
-npm 安装会自动装好平台包，无需手动操作。源码安装时若没有二进制，可自行编译后放入 `~/.dsh/desk-pet/desktop/`。
+An npm install sets up the platform package automatically. For source installs without a binary, build it yourself and drop it into `~/.dsh/desk-pet/desktop/`.
 
-## 配置
+## Configuration
 
-通过 profile 的 `cordis.patch.yml` 覆盖插件配置：
+Override plugin settings via the profile's `cordis.patch.yml`:
 
 ```yaml
 - insert:
     - id: desk-pet
-      name: dsh-desk-pet
+      name: '@jadyssey/dsh-desk-pet'
       config:
-        autostart: true          # DSH 启动时自动拉起桌宠（默认 true）
-        sleepAfterMinutes: 10     # 空闲多少分钟后鲸鱼睡觉（默认 10）
-        enabled: true             # 设为 false 可整体关闭插件
+        autostart: true          # auto-launch the pet on DSH startup (default true)
+        sleepAfterMinutes: 10    # minutes idle before the whale sleeps (default 10)
+        enabled: true            # set false to disable the plugin entirely
 ```
 
-| 字段 | 默认 | 说明 |
+| field | default | description |
 |---|---|---|
-| `autostart` | `true` | DSH 启动时自动拉起桌宠 |
-| `sleepAfterMinutes` | `10` | 空闲多少分钟后鲸鱼进入睡眠 |
-| `enabled` | `true` | 设为 `false` 整体关闭插件（kill switch） |
+| `autostart` | `true` | auto-launch the pet on DSH startup |
+| `sleepAfterMinutes` | `10` | minutes idle before the whale falls asleep |
+| `enabled` | `true` | set `false` to disable the plugin (kill switch) |
 
-## 平台支持
+## Platform support
 
-| 平台 | 状态 |
+| platform | status |
 |---|---|
 | Linux x64 | ✅ |
 | Windows x64 | ✅ |
 | macOS arm64 / x64 | ✅ |
-| Linux arm64 | ⬜ 占位（暂无 CI runner） |
+| Linux arm64 | ⬜ placeholder (no CI runner yet) |
 
-## 本地开发
+## Local development
 
 ```sh
-# 跑插件测试
+# run plugin tests
 npm test
 
-# 构建桌宠前端
+# build the pet frontend
 npm run build:desktop
 
-# 构建桌宠二进制（Linux 需先装 webkit2gtk-4.1 等系统依赖）
+# build the pet binary (Linux needs webkit2gtk-4.1 etc. first)
 cd desktop && npm run build
 ```
 
-改动插件代码后，需重新安装并重启 DSH 才生效：
+After changing plugin code, reinstall and restart DSH for it to take effect:
 
 ```sh
 dsh plugin --profile <profile> remove @jadyssey/dsh-desk-pet
 dsh plugin --profile <profile> add file:$PWD/packages/plugin
 ```
 
-## 仓库结构
+## Repository layout
 
 ```
-packages/plugin/       DSH 插件（状态机 + HTTP 服务）
-packages/<platform>-*/ 平台二进制 npm 包（@jadyssey scope）
-desktop/               Tauri v2 鲸鱼桌宠（原生二进制，产品名 Desk Whale）
-.github/               CI（tag 触发三平台构建 + npm 发布）
+packages/plugin/       DSH plugin (state machine + HTTP service)
+packages/<platform>-*/ per-platform binary npm packages (@jadyssey scope)
+desktop/               Tauri v2 whale pet (native binary, product name Desk Whale)
+.github/               CI (tag-triggered 3-platform build + npm publish)
 ```
 
 ## License
