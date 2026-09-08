@@ -157,12 +157,17 @@ function say(text, ms = 3000) {
 
 // ── DSH polling ──
 let lastHint = null;
+// Consecutive poll failures. Once DSH has been unreachable for a grace period
+// the pet exits on its own, so stopping DSH also stops the pet.
+let pollFailures = 0;
+const MAX_POLL_FAILURES = 30; // 30 × 500ms = 15s grace before giving up
 
 async function pollDsh() {
   try {
     const resp = await fetch(`${DSH_URL}${STATE_ENDPOINT}`, { cache: 'no-store' });
     if (!resp.ok) throw new Error('http ' + resp.status);
     const s = await resp.json();
+    pollFailures = 0; // DSH is alive — reset the failure counter
     setState(s.state);
 
     const hint = s.hint;
@@ -208,7 +213,13 @@ async function pollDsh() {
         lastHint = null;
     }
   } catch {
-    // DSH not running — fall back to idle so the pet is still alive standalone.
+    // DSH not running. After the grace period the pet quits so it doesn't
+    // linger once DSH is stopped. A fresh launch exits quickly (no grace).
+    pollFailures++;
+    if (pollFailures >= MAX_POLL_FAILURES) {
+      await invokeSafe('quit');
+      return;
+    }
     setState('idle');
   }
 }

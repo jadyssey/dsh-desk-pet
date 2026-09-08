@@ -1,6 +1,6 @@
 {
   "name": "@jadyssey/dsh-desk-pet",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Cross-platform desktop pet for DeepSeek Harness — a transparent, always-on-top whale that swims on your desktop and reflects agent state. Ships native Tauri binaries for Windows, macOS and Linux.",
   "license": "MIT",
   "type": "module",
@@ -28,11 +28,11 @@
     "@deepseek-ai/dsh-host-webserver": "*"
   },
   "optionalDependencies": {
-    "@jadyssey/linux-x64": "0.1.2",
-    "@jadyssey/linux-arm64": "0.1.2",
-    "@jadyssey/darwin-x64": "0.1.2",
-    "@jadyssey/darwin-arm64": "0.1.2",
-    "@jadyssey/win32-x64": "0.1.2"
+    "@jadyssey/linux-x64": "0.1.3",
+    "@jadyssey/linux-arm64": "0.1.3",
+    "@jadyssey/darwin-x64": "0.1.3",
+    "@jadyssey/darwin-arm64": "0.1.3",
+    "@jadyssey/win32-x64": "0.1.3"
   },
   "dsh": {
     "bundle": {
