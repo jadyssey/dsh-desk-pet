@@ -25,7 +25,7 @@ import { PetMachine } from './pet-machine.mjs'
 
 const require = createRequire(import.meta.url)
 
-export const name = 'dsh-desk-pet'
+export const name = '@jadyssey/dsh-desk-pet'
 export const inject = ['webServer']
 
 const MIME = {
