@@ -2,7 +2,7 @@
 
 跨平台桌面宠物（Windows / macOS / Linux）：一只透明、置顶、可拖拽的鲸鱼，实时联动 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）的 Agent 状态。
 
-> 产品名 **Desk Whale**（鲸鱼角色身份）；插件包名 **dsh-desk-pet**。
+> 产品名 **Desk Whale**（鲸鱼角色身份）；插件 npm 包名 **@jadyssey/dsh-desk-pet**。
 
 ## 特性
 
@@ -22,7 +22,7 @@
 ### 从 npm 安装（发布后推荐）
 
 ```sh
-dsh plugin --profile <profile> add dsh-desk-pet
+dsh plugin --profile <profile> add @jadyssey/dsh-desk-pet
 ```
 
 安装时会按你的操作系统 + 架构自动拉取对应的桌宠二进制包 `@jadyssey/<platform>-<arch>`，DSH 启动即自动拉起鲸鱼。
@@ -92,7 +92,7 @@ cd desktop && npm run build
 改动插件代码后，需重新安装并重启 DSH 才生效：
 
 ```sh
-dsh plugin --profile <profile> remove dsh-desk-pet
+dsh plugin --profile <profile> remove @jadyssey/dsh-desk-pet
 dsh plugin --profile <profile> add file:$PWD/packages/plugin
 ```
 
