@@ -27,6 +27,24 @@ dsh plugin --profile <profile> add @jadyssey/dsh-desk-pet
 
 安装时会按你的操作系统 + 架构自动拉取对应的桌宠二进制包 `@jadyssey/<platform>-<arch>`，DSH 启动即自动拉起鲸鱼。
 
+#### `<profile>` 是什么
+
+`<profile>` 是你要安装到的 DSH profile 名，每个 profile 对应 `~/.dsh/profiles/<name>/` 下的一套独立插件配置。常见取值：
+
+| profile | 说明 |
+|---|---|
+| `web` | Web 界面模式（`dsh web` 等价于 `--profile web`），**最常用** |
+| `headless` | 无界面，一次性跑完任务即退出 |
+| 自定义名 | 你通过 `dsh --profile <名字>` 自建的任意 profile |
+
+没特别指定过的话，一般填 `web`：
+
+```sh
+dsh plugin --profile web add @jadyssey/dsh-desk-pet
+```
+
+想装到哪个 profile，就把 `<profile>` 换成对应的名字（例如 `headless`）。
+
 ### 从源码安装
 
 ```sh
