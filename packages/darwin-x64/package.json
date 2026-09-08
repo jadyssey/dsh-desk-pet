@@ -1,5 +1,5 @@
 {
-  "name": "@dsh-desk-pet/darwin-x64",
+  "name": "@jadyssey/darwin-x64",
   "version": "0.1.0",
   "description": "desk-whale native desktop pet binary for darwin-x64 (populated by CI).",
   "license": "MIT",

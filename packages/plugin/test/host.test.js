@@ -123,5 +123,5 @@ test('launch route reports a missing binary with an install hint', async () => {
   // manual binary — resolution must fail with an actionable message.
   assert.equal(res.code, 404)
   assert.match(body.error, /desktop binary not found/)
-  assert.match(body.error, /@dsh-desk-pet\//)
+  assert.match(body.error, /@jadyssey\//)
 })

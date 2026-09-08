@@ -208,7 +208,7 @@ export function apply(ctx, config = {}) {
   const resolveDesktopBinary = () => {
     const platform = process.platform
     const rawNames = platform === 'win32' ? ['desk-whale.exe'] : ['desk-whale']
-    const platformPkg = `@dsh-desk-pet/${platform}-${process.arch}`
+    const platformPkg = `@jadyssey/${platform}-${process.arch}`
     const searchDirs = []
     // 1) npm platform package (esbuild-style optionalDependencies layout)
     try {
@@ -264,7 +264,7 @@ export function apply(ctx, config = {}) {
     const exePath = resolveDesktopBinary()
     if (!exePath) {
       return 'desktop binary not found for ' + process.platform + '-' + process.arch +
-        ' (install the @dsh-desk-pet/' + process.platform + '-' + process.arch +
+        ' (install the @jadyssey/' + process.platform + '-' + process.arch +
         ' package, or place a binary in ' + manualDir + '/)'
     }
     try {
@@ -320,7 +320,7 @@ export function apply(ctx, config = {}) {
         if (petAlive()) return
         if (!resolveDesktopBinary()) {
           ctx.logger?.warn?.('[dsh-desk-pet] no native pet binary for this platform; skipping autostart. ' +
-            'Install @dsh-desk-pet/' + process.platform + '-' + process.arch + ' or see the plugin README.')
+            'Install @jadyssey/' + process.platform + '-' + process.arch + ' or see the plugin README.')
           return
         }
         const error = launchPet()

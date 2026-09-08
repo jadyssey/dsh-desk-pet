@@ -1,5 +1,5 @@
 {
-  "name": "@dsh-desk-pet/linux-arm64",
+  "name": "@jadyssey/linux-arm64",
   "version": "0.1.0",
   "description": "desk-whale native desktop pet binary for linux-arm64 (populated by CI).",
   "license": "MIT",

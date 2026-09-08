@@ -28,11 +28,11 @@
     "@deepseek-ai/dsh-host-webserver": "*"
   },
   "optionalDependencies": {
-    "@dsh-desk-pet/linux-x64": "0.1.0",
-    "@dsh-desk-pet/linux-arm64": "0.1.0",
-    "@dsh-desk-pet/darwin-x64": "0.1.0",
-    "@dsh-desk-pet/darwin-arm64": "0.1.0",
-    "@dsh-desk-pet/win32-x64": "0.1.0"
+    "@jadyssey/linux-x64": "0.1.0",
+    "@jadyssey/linux-arm64": "0.1.0",
+    "@jadyssey/darwin-x64": "0.1.0",
+    "@jadyssey/darwin-arm64": "0.1.0",
+    "@jadyssey/win32-x64": "0.1.0"
   },
   "dsh": {
     "bundle": {

@@ -1,5 +1,5 @@
 {
-  "name": "@dsh-desk-pet/linux-x64",
+  "name": "@jadyssey/linux-x64",
   "version": "0.1.0",
   "description": "desk-whale native desktop pet binary for Linux x64 (populated by CI).",
   "license": "MIT",

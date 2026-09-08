@@ -4,7 +4,7 @@ The plugin auto-resolves the native pet binary from the npm platform package
 matching your OS/arch. If it's missing (e.g. offline install), drop a binary
 here instead — this directory takes priority over nothing; resolution order is:
 
-1. npm platform package `@dsh-desk-pet/<platform>-<arch>` (bin/desk-whale[.exe])
+1. npm platform package `@jadyssey/<platform>-<arch>` (bin/desk-whale[.exe])
 2. this `desktop/` directory inside the installed plugin package
 3. `~/.dsh/desk-pet/desktop/` (user-wide manual location)
 

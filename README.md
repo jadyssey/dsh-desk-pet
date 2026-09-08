@@ -25,7 +25,7 @@
 dsh plugin --profile <profile> add dsh-desk-pet
 ```
 
-安装时会按你的操作系统 + 架构自动拉取对应的桌宠二进制包 `@dsh-desk-pet/<platform>-<arch>`，DSH 启动即自动拉起鲸鱼。
+安装时会按你的操作系统 + 架构自动拉取对应的桌宠二进制包 `@jadyssey/<platform>-<arch>`，DSH 启动即自动拉起鲸鱼。
 
 ### 从源码安装
 
@@ -41,7 +41,7 @@ dsh plugin --profile <profile> add file:$PWD/packages/plugin
 
 插件按以下优先级解析桌宠二进制（`desk-whale` / `desk-whale.exe`）：
 
-1. npm 平台包 `@dsh-desk-pet/<platform>-<arch>` 的 `bin/`
+1. npm 平台包 `@jadyssey/<platform>-<arch>` 的 `bin/`
 2. 插件包内 `desktop/`
 3. 用户目录 `~/.dsh/desk-pet/desktop/`
 
@@ -100,7 +100,7 @@ dsh plugin --profile <profile> add file:$PWD/packages/plugin
 
 ```
 packages/plugin/       DSH 插件（状态机 + HTTP 服务）
-packages/<platform>-*/ 平台二进制 npm 包（@dsh-desk-pet scope）
+packages/<platform>-*/ 平台二进制 npm 包（@jadyssey scope）
 desktop/               Tauri v2 鲸鱼桌宠（原生二进制，产品名 Desk Whale）
 .github/               CI（tag 触发三平台构建 + npm 发布）
 ```
