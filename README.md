@@ -19,7 +19,7 @@
 
 - 已安装 [DSH](https://github.com/deepseek-ai/deepseek-harness) 命令行工具
 
-### 从 npm 安装（发布后推荐）
+### 从 npm 安装
 
 ```sh
 dsh plugin --profile <profile> add @jadyssey/dsh-desk-pet
